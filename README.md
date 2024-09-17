@@ -7,3 +7,47 @@ The purpose of this aim is to analyse breast cancer cell line sequences, and com
 
 ### Project Setup and Directories
 The Cunliffe laboratory high capacity storage (HCS) space has been used as the main directory  for outputdata and storage of scripts. Additional HCS spaces within the University of Otago have been used for access to modules, the reference genome, and designed annotation script. 
+
+## SRA Download
+
+### Setting Working Directories 
+`SRAID=$1`                                         
+`wrkdr=/mnt/hcs/dsm-molecularoncology/Elyse_Bioinformatics`
+`cd $wrkdr`
+
+### Downloading SRA files using prefetch
+`module load SRA-Toolkit`
+```
+if [[ ! -s ${wrkdr}/${SRAID}/${SRAID}.sra ]]
+then
+	prefetch --output-directory $wrkdr ${SRAID}	--max-size 1000000000
+fi
+```
+
+## Creating FASTQ Files
+To create fastq file directory 
+`mkdir -p  $wrkdr/${SRAID}/FASTQ_Files`
+
+### Splitting SRA into FASTQ Files 
+```
+if [[ ! -s ${wrkdr}/${SRAID}/${SRAID}.sra ]]
+then 
+	fastq-dump --outdir $wrkdr/${SRAID}/FASTQ_Files --split-files ${wrkdr}/${SRAID}/${SRAID}.sra
+fi
+```
+### Alingmnet of Sampls to Reference Sequence (hg38)
+To create alignment directory 
+`mkdir -p  $wrkdr/${SRAID}/Alignments`
+
+### Creating bam file to be aligned to reference sequence and sorted
+`module load BWA`
+`module load SAMtools`
+`ref="/resource/bundles/hg38/GCA_000001405.15_GRCh38/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna"`
+```
+if [[ ! -s $wrkdr/${SRAID}/Alignments/$SRAID.bam ]]
+then
+	bwa mem -t 12 -k 21 -Y $ref $wrkdr/${SRAID}/FASTQ_Files/${SRAID}_1.fastq $wrkdr/${SRAID}/FASTQ_Files/${SRAID}_2.fastq | \
+	samtools sort -@ 4 -o $wrkdr/${SRAID}/Alignments/$SRAID.bam 
+fi
+```
+
