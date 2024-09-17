@@ -1,6 +1,6 @@
 # TNFRSF12A_Bioinformatics-
-This repository is for storing bioinformatic data as part of my MSc Genetics Thesis. Included within is commands for downloading Whole Genome Sequence (WGS) SRA files through to Variant calling and Annotation.
-All work outlined in this repository is part of the Cunliffe Laboratory at The University of Otago. 
+This repository is for storing bioinformatic data as part of my MSc Genetics Thesis. Included within is commands for downloading Whole Genome Sequence (WGS) SRA files, through to variant calling and annotation.
+All work outlined in this repository belongs to The Cunliffe Laboratory at The University of Otago. 
 
 ## Outline of Project
 The premise for the successive bioinformatic work follows Aim 1 of my MSc Genetics Research, which is to "Characterize regualtory factors within the TNFRSF12A promoter region". Further, the work focuses on identification of promoter sequence abberations consistent with TNFRSF12A transcription and expression. 
