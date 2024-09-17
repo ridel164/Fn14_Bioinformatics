@@ -3,9 +3,9 @@ This repository is for storing bioinformatic data as part of my MSc Genetics The
 All work outlined in this repository belongs to The Cunliffe Laboratory at The University of Otago. 
 
 ## Outline of Project
-The premise for the successive bioinformatic work follows Aim 1 of my MSc Genetics Research, which is to "Characterize regualtory factors within the TNFRSF12A promoter region". Further, the work focuses on identification of promoter sequence abberations consistent with TNFRSF12A transcription and expression. 
+The premise for the successive bioinformatic work follows Aim 1 of my MSc Genetics Research, which is to characterize regualtory factors within the TNFRSF12A promoter region. Further, the work focuses on identification of promoter sequence abberations consistent with _TNFRSF12A_ transcription and expression. 
 
-Objective: Analyse breast cancer cell line sequences and compare variants between cell lines with high and low expression of TNFRSF12A, to analyse whether sequence abberations contribute to differential expression of TNFRSF12A in breast cancer. 
+Objective: Analyse breast cancer cell line sequences and compare variants between cell lines with high and low expression of _TNFRSF12A_, to analyse whether sequence abberations contribute to differential expression of _TNFRSF12A_ in breast cancer. 
 
 Breast cacner cell lines MDAMB231 and BT549 have been chosen as high expressing cell lines where as, MCF7 and T47D have been chosen as low expressing. These decision have been made in line with published literature. 
 
