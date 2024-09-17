@@ -10,7 +10,9 @@ Objective: Analyse breast cancer cell line sequences and compare variants betwee
 Breast cacner cell lines MDAMB231 and BT549 have been chosen as high expressing cell lines where as, MCF7 and T47D have been chosen as low expressing. These decisions have been made in line with published literature, and are outlined in (0.0) Preliminary Results.
 
 ### Project Setup and Directories
-The Cunliffe laboratory high capacity storage (HCS) space has been used as the main directory  for outputdata and storage of scripts. Additional HCS spaces within the University of Otago have been used for access to modules, the reference genome, and designed annotation script. 
+The Cunliffe laboratory high capacity storage (HCS) space has been used as the main directory  for outpu tdata and storage of commands/scripts. Additional HCS spaces within the University of Otago have been used for access to modules, the reference genome, and designed annotation script. 
+
+All scripts and commands were written in BBEdit and are stored in the `dsm/molecular-oncology` HCS space. The scripts run using an `sbatch` command had parameters outlined as described below where relvenat, and were finalized using `exit 0`. 
 
 ## 1. SRA Download
 
@@ -179,7 +181,7 @@ bcftools query --print-header -f '%CHROM\t%POS\t%REF\t%ALT\t%QUAL\t%FILTER\t'$in
 vcf_human_readable ${SRR8670674}.vcf.gz
 ```
 ------------------------------------------------------------------------------------------------------------------
-All scripts and commands were written in BBEdit and are stored in the `dsm/molecular-oncology` high capacity storage space. The scripts run using an `sbatch` command had parameters outlined as described above and were finalized using `exit 0`. 
+
 
 
 
