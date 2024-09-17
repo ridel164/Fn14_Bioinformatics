@@ -7,7 +7,7 @@ The premise for the successive bioinformatic work follows Aim 1 of my MSc Geneti
 
 Objective: Analyse breast cancer cell line sequences and compare variants between cell lines with high and low expression of _TNFRSF12A_, to analyse whether sequence abberations contribute to differential expression of _TNFRSF12A_ in breast cancer. 
 
-Breast cacner cell lines MDAMB231 and BT549 have been chosen as high expressing cell lines where as, MCF7 and T47D have been chosen as low expressing. These decision have been made in line with published literature. 
+Breast cacner cell lines MDAMB231 and BT549 have been chosen as high expressing cell lines where as, MCF7 and T47D have been chosen as low expressing. These decisions have been made in line with published literature, and are outlined in (0.0) Preliminary Results.
 
 ### Project Setup and Directories
 The Cunliffe laboratory high capacity storage (HCS) space has been used as the main directory  for outputdata and storage of scripts. Additional HCS spaces within the University of Otago have been used for access to modules, the reference genome, and designed annotation script. 
