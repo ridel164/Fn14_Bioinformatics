@@ -72,60 +72,36 @@ then
 fi
 ```
 
-## 4. Create pileup and Variant Call
+## 4. Variant call using DeepVariant
 The following script for section 4 was processed as an entire script using `sbatch` with the outlined parameters below
 ```
 #!/bin/bash
-#SBATCH --job-name=mpileup-SRR8652105
-#SBATCH --output=%x-%j.out
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=40G
+
+#SBATCH --job-name=DeepVariant
+#SBATCH --output=%x_%j.out
+#SBATCH --error=%x_%j.err
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
+#SBATCH --time=24:00:00
 ```
 
-### 4.1 Load Modules
-The below commands are uysed to load relevant modules 
-```
-module load SAMtools
-module load BCFtools
-```
-If required, use `module purge` to clear previously loaded modules. 
-
-### 4.2 Set Working Directories and Inputs
+### 4.1 Set Inputs
 The below inputs are required to specify directory locations 
 ```
 SRAID=$1
 wrkdr=/mnt/hcs/dsm-molecularoncology/Elyse_Bioinformatics
 ref="/resource/bundles/hg38/GCA_000001405.15_GRCh38/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna"
-bam_file=$wrkdr/${SRAID}/Alignments/$SRAID.bam
-output_vcf=$wrkdr/${SRAID}/Variant_Call/$SRAID.vcf.gz
-target_regions=$wrkdr/Resources/target.bed
+bam_file=$wrkdr/${SRAID}/Alignments/${SRAID}.bam
+target_regions=chr16:3017000-3022000
+sample_id=${SRAID}
 ```
 
-The target region described above outlines chromsome location for pile up and varaiant calling. 
-A seperate script `target.bed` including `chr16    3017000    3022000`, is referenced as the input for the target region. This region spans upstream of the TNFRSF12A promoter (wihtin upstream gene CLDN6) and beyond exon 1.
+The target region spans upstream of the TNFRSF12A promoter (wihtin upstream gene CLDN6) and beyond exon 1.
 
 
-### 4.3 Index bam file 
-The sorted bam file in 3.3 is indexed using satools, generating a bam.bai file
+### 4.2 Run DeepVariant 
 ```
-if [[ ! -f ${bam_file}.bai ]]
-then
-	echo "yes"
-	samtools index $bam_file
-else 
-	echo "no"
-fi
-```
-
-### 4.4 Create pileup and call for variant in target region 
-```
-if [[ ! -f $output_vcf ]]
-then
-	echo "yes"
-	bcftools mpileup --threads 4 --regions-file $target_regions -Ou -f $ref $bam_file | bcftools call --threads 4 -mv -Oz -o $output_vcf
-else 
-	echo "no"
-fi
+/resource/pipelines/Fastq2VCFplus/DeepVariant.sh -i $bam_file -s $sample_id -a $target_regions -k config_DV_hg38.sh
 ```
 
 ## 5. Annotation of vcf
@@ -150,7 +126,7 @@ To run annotation script for each individual vcf the command below is used. Note
 /resource/pipelines/Variant_Annotation/Annotate_my_VCF.sh -i /mnt/hcs/dsm-molecularoncology/Elyse_Bioinformatics/SRR8670674/Variant_Call/SRR8670674.vcf.gz -d /resource/pipelines/Variant_Annotation/defaults_hg38_gnomADv4.txt
 ```
 
-### 5.4 Exporting data from vcf 
+### 5.4 Exporting data from annotated vcf 
 
 For both commands below the correct file name must be adjusted in the script each time. Here, `${SRR8670674}.vcf.gz` is used, and must be adjusted for differnt files names (incl vcf siffix).  
 
