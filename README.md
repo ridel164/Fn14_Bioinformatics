@@ -96,13 +96,14 @@ target_regions=chr16:3017000-3022000
 sample_id=${SRAID}
 ```
 
-The target region spans upstream of the TNFRSF12A promoter (wihtin upstream gene CLDN6) and beyond exon 1.
+The target region spans upstream of the TNFRSF12A promoter (within upstream gene CLDN6) and beyond exon 1.
 
 
 ### 4.2 Run DeepVariant 
 ```
 /resource/pipelines/Fastq2VCFplus/DeepVariant.sh -i $bam_file -s $sample_id -a $target_regions -k config_DV_hg38.sh
 ```
+This command requires manual changing of the SRAID dependant on which bam file is being processed. 
 
 ## 5. Annotation of vcf
 
