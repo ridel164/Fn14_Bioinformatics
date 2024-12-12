@@ -16,17 +16,17 @@ All scripts and commands were written in BBEdit and are stored in the `dsm/molec
 
 ## 2.4.3.1. Download sequences from SRA database
 
-### 2.4.3.1.1 Load Modules
+### 2.4.3.1.1. Load Modules
 `module load SRA-Toolkit`
 
-### 2.4.3.1.2 Set Working Directories 
+### 2.4.3.1.2. Set Working Directories 
 ```
 SRAID=$1                                        
 wrkdr=/mnt/hcs/dsm-molecularoncology/Elyse_Bioinformatics
 ```
 Change directory to the working directory described above using `cd $wrkdr`
 
-### 2.4.3.1.3 Downloading SRA files using prefetch
+### 2.4.3.1.3. Downloading SRA files using prefetch
 ```
 if [[ ! -s ${wrkdr}/${SRAID}/${SRAID}.sra ]]
 then
@@ -34,11 +34,11 @@ then
 fi
 ```
 
-## 2.4.3.1.4 Creating FASTQ Files
+### 2.4.3.1.4. Creating FASTQ Files
 
 Use `mkdir -p  $wrkdr/${SRAID}/FASTQ_Files` to create fastq file directory 
 
-### 2.4.3.1.4.1 Splitting SRA into FASTQ Files 
+### 2.4.3.1.4.1. Splitting SRA into FASTQ Files 
 
 ```
 if [[ ! -s ${wrkdr}/${SRAID}/${SRAID}.sra ]]
@@ -46,6 +46,9 @@ then
 	fastq-dump --outdir $wrkdr/${SRAID}/FASTQ_Files --split-files ${wrkdr}/${SRAID}/${SRAID}.sra
 fi
 ```
+
+
+
 ## 2.4.3.2. Align samples to Reference sequence (hg38)
 
 Use `mkdir -p  $wrkdr/${SRAID}/Alignments` to create output alignment directory 
@@ -71,6 +74,8 @@ then
 	samtools sort -@ 4 -o $wrkdr/${SRAID}/Alignments/$SRAID.bam 
 fi
 ```
+
+
 
 ## 2.4.3.3. Variant call using DeepVariant
 The following script for section 4 was processed as an entire script using `sbatch` with the outlined parameters below
@@ -105,6 +110,8 @@ The target region spans upstream of the TNFRSF12A promoter (within upstream gene
 ```
 This command requires manual changing of the SRAID dependant on which bam file is being processed. 
 
+
+
 ## 2.4.3.4. Annotation of vcf
 
 ### 2.4.3.4.1. Load Modules 
@@ -127,7 +134,9 @@ To run annotation script for each individual vcf the command below is used. Note
 /resource/pipelines/Variant_Annotation/Annotate_my_VCF.sh -i /mnt/hcs/dsm-molecularoncology/Elyse_Bioinformatics/SRR8670674/Variant_Call/SRR8670674.vcf.gz -d /resource/pipelines/Variant_Annotation/defaults_hg38_gnomADv4.txt
 ```
 
-### 2.4.3.5. Exporting data from annotated vcf 
+
+
+## 2.4.3.5. Exporting data from annotated vcf to filter
 
 For both commands below the correct file name must be adjusted in the script each time. Here, `${SRR8670674}.vcf.gz` is used, and must be adjusted for differnt files names (incl vcf siffix).  
 
