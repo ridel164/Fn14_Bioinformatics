@@ -14,19 +14,19 @@ The Cunliffe laboratory high capacity storage (HCS) space has been used as the m
 
 All scripts and commands were written in BBEdit and are stored in the `dsm/molecular-oncology` HCS space. The scripts run using an `sbatch` command had parameters outlined as described below where relvenat, and were finalized using `exit 0`. 
 
-## 1. SRA Download
+## 2.4.3.1. Download sequences from SRA database
 
-### 1.1. Load Modules
+### 2.4.3.1.1 Load Modules
 `module load SRA-Toolkit`
 
-### 1.2 Set Working Directories 
+### 2.4.3.1.2 Set Working Directories 
 ```
 SRAID=$1                                        
 wrkdr=/mnt/hcs/dsm-molecularoncology/Elyse_Bioinformatics
 ```
 Change directory to the working directory described above using `cd $wrkdr`
 
-### 1.3. Downloading SRA files using prefetch
+### 2.4.3.1.3 Downloading SRA files using prefetch
 ```
 if [[ ! -s ${wrkdr}/${SRAID}/${SRAID}.sra ]]
 then
@@ -34,11 +34,11 @@ then
 fi
 ```
 
-## 2. Creating FASTQ Files
+## 2.4.3.1.4 Creating FASTQ Files
 
 Use `mkdir -p  $wrkdr/${SRAID}/FASTQ_Files` to create fastq file directory 
 
-### 2.1 Splitting SRA into FASTQ Files 
+### 2.4.3.1.4.1 Splitting SRA into FASTQ Files 
 
 ```
 if [[ ! -s ${wrkdr}/${SRAID}/${SRAID}.sra ]]
@@ -46,22 +46,22 @@ then
 	fastq-dump --outdir $wrkdr/${SRAID}/FASTQ_Files --split-files ${wrkdr}/${SRAID}/${SRAID}.sra
 fi
 ```
-## 3. Align samples to Reference sequence (hg38)
+## 2.4.3.2. Align samples to Reference sequence (hg38)
 
 Use `mkdir -p  $wrkdr/${SRAID}/Alignments` to create output alignment directory 
 
-### 3.1 Load Modules
+### 2.4.3.2.1. Load Modules
 ```
 module load BWA
 module load SAMtools
 ```
 
-### 3.2. Set Working Directories
+### 2.4.3.2.2. Set Working Directories
 The whole human genome sequence hg38 is used as the refernece sequence. This is stored within a shared high capacity storage space at The University of Otago.
 
 `ref="/resource/bundles/hg38/GCA_000001405.15_GRCh38/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna"`
 
-### 3.3. Create bam file to be aligned to refernce.
+### 2.4.3.2.3. Create bam file to be aligned to refernce.
 
 This command uses the fastq files created in 2.1 to develop a bam file, which is aligned to the reference sequence described in 3.2. The aligned sequences are then piped sirectly into samtools for sorting. 
 ```
@@ -72,7 +72,7 @@ then
 fi
 ```
 
-## 4. Variant call using DeepVariant
+## 2.4.3.3. Variant call using DeepVariant
 The following script for section 4 was processed as an entire script using `sbatch` with the outlined parameters below
 ```
 #!/bin/bash
@@ -85,7 +85,7 @@ The following script for section 4 was processed as an entire script using `sbat
 #SBATCH --time=24:00:00
 ```
 
-### 4.1 Set Inputs
+### 2.4.3.3.1. Set Inputs
 The below inputs are required to specify directory locations 
 ```
 SRAID=$1
@@ -99,20 +99,20 @@ sample_id=${SRAID}
 The target region spans upstream of the TNFRSF12A promoter (within upstream gene CLDN6) and beyond exon 1.
 
 
-### 4.2 Run DeepVariant 
+### 2.4.3.3.2. Run DeepVariant 
 ```
 /resource/pipelines/Fastq2VCFplus/DeepVariant.sh -i $bam_file -s $sample_id -a $target_regions -k config_DV_hg38.sh
 ```
 This command requires manual changing of the SRAID dependant on which bam file is being processed. 
 
-## 5. Annotation of vcf
+## 2.4.3.4. Annotation of vcf
 
-### 5.1 Load Modules 
+### 2.4.3.4.1. Load Modules 
 ```
 module load BCFtools/1.17-GCC-12.2.0
 ```
 
-### 5.2. Set Working Directories 
+### 2.4.3.4.2. Set Working Directories 
 
 Path to the annotation script (opens help menu)
 `/resource/pipelines/Variant_Annotation/Annotate_my_VCF.sh`
@@ -120,14 +120,14 @@ Path to the annotation script (opens help menu)
 Changing working directory to match individual vcf being annotated in 5.3
 `cd /mnt/hcs/dsm-molecularoncology/Elyse_Bioinformatics/SRR8670674/Variant_Call/`
 
-### 5.3. Running Annotation Script 
+### 2.4.3.4.3. Running Annotation Script 
 
 To run annotation script for each individual vcf the command below is used. Note that, the working directory and vcf location must be adjusted each time the scrpt is submitted. 
 ```
 /resource/pipelines/Variant_Annotation/Annotate_my_VCF.sh -i /mnt/hcs/dsm-molecularoncology/Elyse_Bioinformatics/SRR8670674/Variant_Call/SRR8670674.vcf.gz -d /resource/pipelines/Variant_Annotation/defaults_hg38_gnomADv4.txt
 ```
 
-### 5.4 Exporting data from annotated vcf 
+### 2.4.3.5. Exporting data from annotated vcf 
 
 For both commands below the correct file name must be adjusted in the script each time. Here, `${SRR8670674}.vcf.gz` is used, and must be adjusted for differnt files names (incl vcf siffix).  
 
