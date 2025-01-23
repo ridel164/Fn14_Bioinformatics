@@ -1,3 +1,0 @@
-This file is for storing sequence files aligned to the reference sequence (hg38)
-Files for each cell line sequence alignemnt are seperate and are named using the corresponding SRR# (Run INdex)
-These bam files can be viewed within IGV Software to visualize reads and variants
